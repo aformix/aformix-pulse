@@ -1,5 +1,4 @@
-import { chromium, Page } from 'playwright';
-import * as cheerio from 'cheerio';
+import { chromium } from 'playwright';
 
 export interface SeoResult {
   url: string;
@@ -36,38 +35,31 @@ export const crawlPage = async (url: string): Promise<SeoResult> => {
     const response = await page.goto(url, { waitUntil: 'domcontentloaded' });
     const statusCode = response?.status() || 500;
 
-    // Get the HTML content
-    const html = await page.content();
-    
-    // Load into Cheerio for fast DOM parsing
-    const $ = cheerio.load(html);
-
-    // Extract basic SEO Data
-    const title = $('title').text().trim();
-    const metaDescription = $('meta[name="description"]').attr('content')?.trim() || '';
-    const h1Count = $('h1').length;
-    
-    // Simple word count estimate on body text
-    const textContent = $('body').text().replace(/\s+/g, ' ').trim();
-    const wordCount = textContent ? textContent.split(' ').length : 0;
-
-    // Extract links
-    const baseUrl = new URL(url).origin;
-    const links: { href: string; text: string; isInternal: boolean }[] = [];
-    
-    $('a').each((_, el) => {
-      let href = $(el).attr('href');
-      const text = $(el).text().trim().substring(0, 100); // cap text length
-
-      if (href) {
-        try {
-          const isInternal = href.startsWith('/') || href.startsWith(baseUrl);
+    // Extract SEO data directly in the page context to avoid cheerio dependency
+    const extracted = await page.evaluate((base) => {
+      const title = document.querySelector('title')?.textContent?.trim() || '';
+      const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || '';
+      const h1Count = document.querySelectorAll('h1').length;
+      const bodyText = document.body ? (document.body.textContent || '').replace(/\s+/g, ' ').trim() : '';
+      const wordCount = bodyText ? bodyText.split(' ').length : 0;
+      const links: { href: string; text: string; isInternal: boolean }[] = [];
+      const anchors = Array.from(document.querySelectorAll('a'));
+      for (const a of anchors) {
+        const href = a.getAttribute('href');
+        const text = (a.textContent || '').trim().substring(0, 100);
+        if (href) {
+          const isInternal = href.startsWith('/') || href.startsWith(base);
           links.push({ href, text, isInternal });
-        } catch {
-          // ignore invalid URLs
         }
       }
-    });
+      return { title, metaDescription, h1Count, wordCount, links };
+    }, new URL(url).origin);
+
+    const title = extracted.title;
+    const metaDescription = extracted.metaDescription;
+    const h1Count = extracted.h1Count;
+    const wordCount = extracted.wordCount;
+    const links = extracted.links;
 
     const loadTimeMs = Date.now() - startTime;
 
