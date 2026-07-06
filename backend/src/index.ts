@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
+import helmet from 'helmet/index.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoutes from './routes/auth.routes.js';
@@ -34,9 +34,7 @@ const parseAllowedOrigins = (value?: string) => {
 const allowedOrigins = new Set(parseAllowedOrigins(process.env.FRONTEND_URL));
 
 // Security Middlewares
-// `helmet`'s types may be non-callable with certain TS/module settings.
-// Cast to `any` to keep the middleware call-compatible across environments.
-app.use((helmet as any)());
+app.use(helmet());
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
