@@ -1,0 +1,205 @@
+# =========================
+# OS Generated Files
+# =========================
+
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+
+# =========================
+# Editor / IDE Files
+# =========================
+
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+
+# =========================
+# Logs
+# =========================
+
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# =========================
+# Environment Variables
+# =========================
+
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+
+# =========================
+# Node.js / JavaScript
+# =========================
+
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+dist/
+build/
+.next/
+out/
+
+coverage/
+
+.cache/
+.parcel-cache/
+
+
+# =========================
+# React / Next.js
+# =========================
+
+.next/
+.vercel/
+
+*.tsbuildinfo
+
+
+# =========================
+# Package Manager
+# =========================
+
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+*.so
+.Python
+
+venv/
+env/
+ENV/
+
+.pytest_cache/
+.mypy_cache/
+
+
+
+
+# =========================
+# PHP / Laravel
+# =========================
+
+vendor/
+
+storage/*.key
+.env
+
+bootstrap/cache/
+
+
+# =========================
+# WordPress
+# =========================
+
+wp-config.php
+
+wp-content/uploads/
+wp-content/cache/
+
+*.sql
+
+
+# =========================
+# Database
+# =========================
+
+*.sqlite
+*.sqlite3
+*.db
+
+
+# =========================
+# Build Files
+# =========================
+
+tmp/
+temp/
+.cache/
+
+
+# =========================
+# Security / Secrets
+# =========================
+
+*.pem
+*.key
+*.crt
+
+secrets/
+credentials/
+
+
+# =========================
+# Images / Large Files
+# =========================
+
+*.zip
+*.rar
+*.tar
+*.gz
+
+
+# =========================
+# Backup Files
+# =========================
+
+*.backup
+*.bak
+*.old
+
+
+# =========================
+# Terraform
+# =========================
+
+.terraform/
+*.tfstate
+*.tfstate.*
+
+
+# =========================
+# Docker
+# =========================
+
+docker-compose.override.yml
+
+
+# =========================
+# Testing
+# =========================
+
+test-results/
+playwright-report/
+
+
+# =========================
+# Misc
+# =========================
+
+.DS_Store?
+*.swp
+*.swo
