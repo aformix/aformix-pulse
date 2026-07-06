@@ -34,7 +34,9 @@ const parseAllowedOrigins = (value?: string) => {
 const allowedOrigins = new Set(parseAllowedOrigins(process.env.FRONTEND_URL));
 
 // Security Middlewares
-app.use(helmet());
+// `helmet`'s types may be non-callable with certain TS/module settings.
+// Cast to `any` to keep the middleware call-compatible across environments.
+app.use((helmet as any)());
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
